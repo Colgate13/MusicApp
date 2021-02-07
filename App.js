@@ -34,7 +34,7 @@ export default function App() {
   ])
 
 
-  function trocarMusica(id)
+  function trocarMusica(id)/*Usar se for usar um banco de dados, com Id, vai facilitar */ 
   {
   let return_val = music.map((val) => {
       if(val.id == id){
@@ -47,7 +47,20 @@ export default function App() {
     })
     setMusic(return_val);
   }
-    
+  function musicaTrocar(id){
+    let return_val = music.filter((val,k) => {
+      if(val.id == k){
+        val.playing = true;
+      }
+      if(val.id != k){
+        val.playing = false;
+      }
+      return return_val[k];
+    })
+    setMusic(return_val);
+  }
+  
+  
 
   return (
     <ScrollView style={styles.container}>
@@ -61,7 +74,7 @@ export default function App() {
     </View>
 
     {
-      music.map((val) => {
+      music.map((val,k) => {/* o K como se fosse um id para cada posição do array Music*/
 
         if(val.playing)
         {
@@ -77,7 +90,7 @@ export default function App() {
         {
           return(
             <View style={styles.table}>
-            <TouchableOpacity onPress={() => trocarMusica(val.id)} style={styles.BtnTouchaOpaciMusic}>
+            <TouchableOpacity /*onPress={() => trocarMusica(val.id)}*/ onPress={() => musicaTrocar(k)} style={styles.BtnTouchaOpaciMusic}>
               <Text style={styles.TableTextBtnFalse}><AntDesign name="play" size={16} color="#1DB954"/>  {val.nome}</Text>
               <Text style={styles.TableTextBtnFalse}>{val.artista}</Text>
             </TouchableOpacity>
