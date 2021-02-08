@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Audio } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
+import  Player  from './Player';
 
 export default function App() {
 
@@ -11,26 +12,53 @@ export default function App() {
   const [music, setMusic] = useState([
     {
       id: 1,
-      nome: 'Sweet child of mine',
-      artista: 'Guns N Roses',
+      nome: '505',
+      artista: 'Artic Monkeys',
       playing: false,
-      file: '',
+      file: require('./assets/music/505.mp3'),
     },
     {
       id: 2,
-      nome: 'Of mine',
-      artista: 'N Roses',
-      playing: true,
-      file: '',
+      nome: 'Arte Insulto',
+      artista: 'Matanza',
+      playing: false,
+      file: require('./assets/music/ArteInsulto.mp3'),
     },
     {
       id: 3,
-      nome: 'Sweet mine',
-      artista: 'Guns N',
+      nome: 'Greek N',
+      artista: 'Eletron',
       playing: false,
-      file: '',
+      file: require('./assets/music/Greek.mp3'),
     },
-
+    {
+      id: 4,
+      nome: 'Kurd Cobain',
+      artista: 'Eletron',
+      playing: false,
+      file: require('./assets/music/KurdCobain.mp3'),
+    },
+    {
+      id: 5,
+      nome: 'Lucas triste',
+      artista: 'LUCAHUS',
+      playing: false,
+      file: require('./assets/music/Luclus.mp3'),
+    },
+    {
+      id: 6,
+      nome: 'So Canela',
+      artista: 'Matheus Canela',
+      playing: false,
+      file: require('./assets/music/SoCanela.mp3'),
+    },
+    {
+      id: 7,
+      nome: 'Sua Assinatura',
+      artista: 'Matanza Canela',
+      playing: false,
+      file: require('./assets/music/SuaAssinatura.mp3'),
+    },
   ])
 
 
@@ -47,29 +75,49 @@ export default function App() {
     })
     setMusic(return_val);
   }
-  function musicaTrocar(id){
+  async function musicaTrocar(id){
+    let curFile = null;
     let return_val = music.filter((val,k) => {
-      if(val.id == k){
-        val.playing = true;
+      if(id == k){
+       music[k].playing = true;
+       curFile = music[k].file;
       }
-      if(val.id != k){
-        val.playing = false;
+      if(id != k){
+       music[k].playing = false;
       }
-      return return_val[k];
+      return music[k];
     })
+
+    if(audio != null)
+    { 
+      audio.unloadAsync();
+    }
+
+
+    let curAudio = new Audio.Sound();
+    try {
+      await curAudio.loadAsync(curFile);
+      await curAudio.playAsync();
+    }catch(error)
+    {
+
+    }
+    setAudio(curAudio);
+
     setMusic(return_val);
   }
   
   
 
   return (
+    <View style={{ flex: 1 }}>
     <ScrollView style={styles.container}>
       <View style={styles.header}> 
-        <Text style={styles.header_text}>| MusicApp | </Text>
+        <Text style={styles.header_text}>| Spotify Premium | </Text>
       </View>
 
     <View style={styles.table}>
-        <Text style={styles.TableText}>Musca</Text>
+        <Text style={styles.TableText}>Musica</Text>
         <Text style={styles.TableText}>Artista</Text>
     </View>
 
@@ -102,7 +150,10 @@ export default function App() {
     }
 
 
+    <View style={{ paddingBottom:200}}></View>
     </ScrollView>
+    <Player></Player>
+    </View>
   );
 }
 
