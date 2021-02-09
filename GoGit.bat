@@ -1,5 +1,6 @@
 git add GoGit.bat
 git add App.js
+git add Player.js
 git add app.json
 git add package.json
 git add yarn.lock
