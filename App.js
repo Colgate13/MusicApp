@@ -1,11 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, LogBox } from 'react-native';
 import { Audio } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
 import  Player  from './Player';
 
 export default function App() {
+
+  LogBox.ignoreAllLogs(true);
+  const [ audioIndex, setAudioIndex ] = useState(0);
+
+  const [playing, setPlaying] = useState(false);
 
   const [audio, setAudio] = useState(null);
 
@@ -59,6 +64,13 @@ export default function App() {
       playing: false,
       file: require('./assets/music/SuaAssinatura.mp3'),
     },
+    {
+      id: 8,
+      nome: 'Hello bitch',
+      artista: 'bitch Canela',
+      playing: false,
+      file: {uri: 'https://www.soundhelix.com/exemples/mp3/SoundHelix-Song-1.mp3'}
+    },
   ])
 
 
@@ -77,10 +89,15 @@ export default function App() {
   }
   async function musicaTrocar(id){
     let curFile = null;
-    let return_val = music.filter((val,k) => {
+    let newMusic = music.filter((val,k) => {
+
       if(id == k){
        music[k].playing = true;
+
        curFile = music[k].file;
+       setPlaying(true);
+       setAudioIndex(id);
+
       }
       if(id != k){
        music[k].playing = false;
@@ -104,7 +121,7 @@ export default function App() {
     }
     setAudio(curAudio);
 
-    setMusic(return_val);
+    setMusic(newMusic);
   }
   
   
@@ -152,7 +169,7 @@ export default function App() {
 
     <View style={{ paddingBottom:200}}></View>
     </ScrollView>
-    <Player></Player>
+    <Player playing={playing} setPlaying={setPlaying} audioIndex={audioIndex} music={music} setMusic={setMusic} audio={audio} setAudio={setAudio}></Player>
     </View>
   );
 }
