@@ -2,8 +2,100 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import {Audio} from 'expo-av';
 
 export default function Player(props) {
+
+    const handleBack = async () =>
+    {
+        let newIndex = props.audioIndex - 1;
+        if(newIndex < 0)
+        {
+            newIndex = props.music.length - 1;
+        }
+        props.setAudioIndex(newIndex);
+
+        let curFile = props.music[newIndex].file;
+
+        //aTT A INTERFACE
+        let newMusic = props.music.filter((val,k) => {
+
+            if(newIndex == k){
+             props.music[k].playing = true;
+      
+             curFile = props.music[k].file;      
+            }else{
+
+            props.music[k].playing = false;
+
+            }
+            return props.music[k];
+          })
+          //REPRODUZIR AUDIO
+          if(props.audio != null)
+          { 
+            props.audio.unloadAsync();
+          }
+      
+      
+          let curAudio = new Audio.Sound();
+          try {
+            await curAudio.loadAsync(curFile);
+            await curAudio.playAsync();
+          }catch(error)
+          {
+            console.log("Erro aqui man");
+          }
+          props.setAudio(curAudio);
+          props.setMusic(newMusic);
+          props.setPlaying(true);
+
+    }
+    const handleGo = async () =>
+    {
+        let newIndex = props.audioIndex + 1;
+        if(newIndex >= props.music.length)
+        {
+            newIndex = 0;
+        }
+        props.setAudioIndex(newIndex);
+
+        let curFile = props.music[newIndex].file;
+
+       //aTT A INTERFACE
+       let newMusic = props.music.filter((val,k) => {
+
+        if(newIndex == k){
+         props.music[k].playing = true;
+  
+         curFile = props.music[k].file;      
+        }else{
+
+        props.music[k].playing = false;
+
+        }
+        return props.music[k];
+      })
+          //REPRODUZIR AUDIO
+          if(props.audio != null)
+          { 
+            props.audio.unloadAsync();
+          }
+      
+      
+          let curAudio = new Audio.Sound();
+          try {
+            await curAudio.loadAsync(curFile);
+            await curAudio.playAsync();
+          }catch(error)
+          {
+            console.log("Erro aqui man");
+          }
+          props.setAudio(curAudio);
+          props.setMusic(newMusic);
+          props.setPlaying(true);
+
+    }
 
     const handlePlay = async() => {
         let curFile = props.music[props.audioIndex].file;
@@ -45,18 +137,19 @@ export default function Player(props) {
           }
 
     }
+    
     const handlePause = async() => {
         if(props.audio != null){
             props.audio.pauseAsync();
         }
         props.setPlaying(false);
     }
-
-
+    
+  
     return(
         <View  style={styles.player}  >
-            <TouchableOpacity style={{marginRight: 20, marginLeft: 20}}>
-                <AntDesign name="banckward" size={35} color="white"/>
+            <TouchableOpacity onPress={()=> handleBack()} style={{marginRight: 20, marginLeft: 20}}>
+                <AntDesign onPress={() => handleBack()} name="banckward" size={35} color="white"/>
             </TouchableOpacity>
             { 
             (!props.playing)? 
@@ -69,7 +162,7 @@ export default function Player(props) {
             </TouchableOpacity>
             }
 
-            <TouchableOpacity style={{marginRight: 20, marginLeft: 20}}>
+            <TouchableOpacity onPress={()=> handleGo()} style={{marginRight: 20, marginLeft: 20}}>
                 <AntDesign name="forward" size={35} color="white"/>
             </TouchableOpacity>
 

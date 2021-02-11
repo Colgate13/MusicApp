@@ -14,6 +14,7 @@ export default function App() {
 
   const [audio, setAudio] = useState(null);
 
+
   const [music, setMusic] = useState([
     {
       id: 1,
@@ -123,8 +124,6 @@ export default function App() {
 
     setMusic(newMusic);
   }
-  
-  
 
   return (
     <View style={{ flex: 1 }}>
@@ -169,7 +168,7 @@ export default function App() {
 
     <View style={{ paddingBottom:200}}></View>
     </ScrollView>
-    <Player playing={playing} setPlaying={setPlaying} audioIndex={audioIndex} music={music} setMusic={setMusic} audio={audio} setAudio={setAudio}></Player>
+    <Player  playing={playing} setAudioIndex={setAudioIndex} setPlaying={setPlaying} audioIndex={audioIndex} music={music} setMusic={setMusic} audio={audio} setAudio={setAudio}></Player>
     </View>
   );
 }
