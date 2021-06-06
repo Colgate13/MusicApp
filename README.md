@@ -26,7 +26,6 @@ Um aplicativo que pode tocar musicas do seu aparelho ou receber links para toca-
 
 <img src="https://github.com/Colgate13/MusicApp/blob/main/assets/img3.jpeg"></img>
 <img src="https://github.com/Colgate13/MusicApp/blob/main/assets/img1.jpeg"></img>
-<img src="https://github.com/Colgate13/MusicApp/blob/main/assets/img2.jpeg"></img>
 
 ## Installation and run
 
